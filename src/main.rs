@@ -1,7 +1,6 @@
 mod model;
 
 
-
 fn main() {
     println!("bomboclattt");
 }
