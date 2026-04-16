@@ -1,3 +1,15 @@
+
 fn main() {
-    println("bomboclattt");
+    println!("bomboclattt");
+}
+
+
+struct hello{
+
+}
+
+
+
+fn calculate(){
+    
 }
