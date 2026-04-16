@@ -6,6 +6,8 @@
 //MEDIUM => $8
 //SMALL => $5
 
+use std::hash::RandomState;
+
 enum Size{
     Small,
     Medium,
@@ -43,18 +45,47 @@ enum Coffee{
     MidnightRoast
 }
 
-
-//this could represent Columbian Dark
-struct CofffeItem{
-    name : Coffee,
-    roast : Roast,
-    description : String
+impl Coffee{
+    fn description(&self) -> &'static str{
+        match self {
+            Coffee::Columbian => "Smooth and balanced with mild acidity",
+            Coffee::Arabica => "Sweet and complex with fruity notes",
+            Coffee::Robusta => "Strong and bitter with high caffeine",
+            Coffee::Excelsa => "Tart and fruity with a unique profile",
+            Coffee::BreakfastBlend => "Light and bright, perfect for mornings",
+            Coffee::MidnightRoast => "Dark and bold with deep flavor",
+            
+        }
+    }
 }
 
 
+//this could represent Columbian Dark
+//this struct represents what we have on the menu
+struct CofffeItem{
+    name : Coffee,
+    roast : Roast,
+    //description will always be the same for the coffees so instead of lifetimes used static
+    description : &'static str
+}
 
 
+impl CofffeItem{
+    fn new(new_name : Coffee, new_roast : Roast) -> Self{
 
+        let new_description = Coffee::description(&new_name);
+
+        CofffeItem{
+            name : new_name,
+            roast : new_roast,
+            description : new_description
+        }
+
+    }
+}
+
+
+//might need lifetimes('a things) for the coffeeitem in the parameters
 //this would be represented by an object like 2 bags og Columbian Dark size L which would then be 24 as price
 struct ItemOrder{
     coffee : CofffeItem,
@@ -64,6 +95,7 @@ struct ItemOrder{
 }
 
 
+//
 impl ItemOrder{
     fn new(new_coffee : CofffeItem, new_size : Size, new_quantity : f32) -> Self{
 
@@ -81,12 +113,35 @@ impl ItemOrder{
 
 //the vector will contain different item orders, 
 
+//customerOrder struct will basically be like a receipt of everything they bought
 struct CustomerOrder{
     id : i32,
     customer_id : i32,
     items : Vec<ItemOrder>,
     total_price : f32
 }   
+
+
+impl CustomerOrder{
+    fn new(new_id : i32, customer_id : i32, ) -> Self{
+
+        CustomerOrder{
+            id : new_id,
+            customer_id : customer_id,
+            items : Vec::new(),
+            total_price : 0.0
+        }
+    }
+
+    fn add_item(&mut self, coffeeItem : ItemOrder){
+
+        
+        self.total_price += coffeeItem.price;
+        self.items.push(coffeeItem);
+
+
+    }
+}
 
 pub struct Customer{
     id : i32,
@@ -103,9 +158,4 @@ impl Customer{
             email : new_email
         }
     }
-}
-
-
-impl CustomerOrder{
-
 }
