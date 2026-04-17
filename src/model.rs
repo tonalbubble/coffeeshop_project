@@ -1,4 +1,5 @@
 
+use std::collections::HashMap;
 
 //lets do pricing as follows
 
@@ -28,6 +29,7 @@ impl Size{
     }
 }
 
+
 enum Roast{
     Light,
     Medium,
@@ -36,6 +38,9 @@ enum Roast{
 
 //coffee enum just so we have fixed types, if we were building this to dynamically add coffees
 //then string could be better but this will be easier to manage errors
+
+
+#[derive(Hash, Eq, PartialEq, Debug, Clone, Copy)]
 enum Coffee{
     Columbian,
     Arabica,
@@ -43,6 +48,60 @@ enum Coffee{
     Excelsa,
     BreakfastBlend,
     MidnightRoast
+}
+
+struct Inventory{
+    stock : HashMap<Coffee, i32>
+}
+
+
+//basically just gonna do number of bags available
+//disregard the large,small,medium that we can implement later
+//so with the simulation just gonna remove one bag per purchase
+impl Inventory{
+    fn new() -> Self{
+
+        let mut stock = HashMap::new();
+
+        stock.insert(Coffee::Arabica, 100);
+        stock.insert(Coffee::Arabica, 100);
+        stock.insert(Coffee::Arabica, 100);
+
+        Inventory { stock }
+
+    }
+
+    fn add_stock(&mut self, coffee : Coffee, amount : i32){
+        //or insert checks if a value exists at the location at thekey, returns mutable reference to the value
+        let inventory_add = self.stock.entry(coffee).or_insert(0);
+
+        //dereference the pointer here
+        *inventory_add += amount
+    } 
+
+
+    //if not enough coffee to remove from return false here
+    fn reduce_stock(&mut self, coffee : Coffee, amount : i32) -> bool{
+
+        //get_mut return mutable reference for the value at the key location in the hashmap
+        if let Some(current_stock) = self.stock.get_mut(&coffee){
+            if(*current_stock >= amount){
+                *current_stock -= amount;
+                return true;
+            }
+            
+        }
+        false
+    }
+
+
+    fn print_inventory(&self){
+        println!("--------INVENTORY---------");
+        for(coffee, amount) in &self.stock{
+            println!("{:?}, {}", coffee, amount);
+        }
+    }
+
 }
 
 impl Coffee{
@@ -97,6 +156,7 @@ struct ItemOrder{
 
 //
 impl ItemOrder{
+
     fn new(new_coffee : CofffeItem, new_size : Size, new_quantity : f32) -> Self{
 
         let total_price = new_size.price() * new_quantity;
@@ -133,16 +193,24 @@ impl CustomerOrder{
         }
     }
 
-    fn add_item(&mut self, coffeeItem : ItemOrder){
+    fn add_item(&mut self, coffee: Coffee, roast: Roast, size: Size, quantity: f32){
 
-        
-        self.total_price += coffeeItem.price;
-        self.items.push(coffeeItem);
+
+        let coffee_item = CofffeItem::new(coffee, roast);
+        let item = ItemOrder::new(coffee_item, size, quantity);
+
+
+        self.total_price += item.price;
+        self.items.push(item);
 
 
     }
 }
 
+
+
+
+/*
 pub struct Customer{
     id : i32,
     name : String,
@@ -159,3 +227,4 @@ impl Customer{
         }
     }
 }
+*/
