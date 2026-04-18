@@ -1,1 +1,0 @@
-/home/charl/cs_310/coffeeshop_project/target/debug/rust_project: /home/charl/cs_310/coffeeshop_project/src/database.rs /home/charl/cs_310/coffeeshop_project/src/main.rs /home/charl/cs_310/coffeeshop_project/src/model.rs

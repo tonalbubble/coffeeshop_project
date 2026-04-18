@@ -151,6 +151,7 @@ impl CofffeItem{
 //this would be represented by an object like 2 bags og Columbian Dark size L which would then be 24 as price
 struct ItemOrder{
     coffee : Coffee,
+    roast : Roast,
     size : Size,
     quantity : f32,
     price : f32
@@ -160,7 +161,7 @@ struct ItemOrder{
 //
 impl ItemOrder{
 
-    fn new(new_coffee : Coffee, new_size : Size, new_quantity : f32) -> Self{
+    fn new(new_coffee : Coffee, new_roast : Roast, new_size : Size, new_quantity : f32) -> Self{
 
         let total_price = new_size.price() * new_quantity;
 
@@ -168,7 +169,8 @@ impl ItemOrder{
             coffee : new_coffee,
             size : new_size,
             quantity : new_quantity,
-            price : total_price
+            price : total_price,
+            roast : new_roast
         }
     }
 
@@ -200,7 +202,7 @@ impl CustomerOrder{
 
 
         //let coffee_item = CofffeItem::new(coffee, roast);
-        let item = ItemOrder::new(coffee, size, quantity);
+        let item = ItemOrder::new(coffee, roast, size, quantity);
 
 
         self.total_price += item.price;
