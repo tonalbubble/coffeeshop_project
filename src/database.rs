@@ -22,12 +22,43 @@ impl Database{
     }
     //creates the tables that we will need
     pub fn create_tables(&self) -> Result<(),Error>{
+
+        //jus the products we have on the menu
         self.conn.execute(
             "CREATE TABLE IF NOT EXISTS product(
-                product_id INT PRIMARY KEY,
-                name STRING NOT NULL,
+                product_id INT PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
                 base_price DECIMAL NOT NULL
                 )",())?; //error propagation
+
+
+        //what we have in stock
+        self.conn.execute(
+            "CREATE TABLE IF NOT EXISTS inventory(
+                product_id INTEGER PRIMARY KEY,
+                stock INTEGER NOT NULL,
+                FOREIGN KEY(product_id) REFERENCES product(product_id)
+                )",())?;
+        
+
+        //CustomerOrder table
+        self.conn.execute(
+            "CREATE TABLE IF NOT EXISTS orders(
+                order_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                customer_id INTEGER,
+                total_price INTEGER NOT NULL,
+            )",())?;
+
+        self.conn.execute(
+            "CREATE TABLE IF NOT EXISTS order_items(
+                item_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                order_id INTEGER NOT NULL,
+                coffee TEXT NOT NULL,
+                roast TEXT NOT NULL,
+                size TEXT NOT NULL,
+                quantity REAL NOT NULL,
+                price REAL NOT NULL,
+            )",())?;
         Ok(())
     }
 
