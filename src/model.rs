@@ -1,3 +1,31 @@
+/*
+DESCRIPTION OF APP FLOW
+
+CustomerOrder should be created when user gets to page
+then when they click a link the item is added to their order <Vec>
+we will have text that is a link so example:
+
+Robusta - Strong and bitter
+
+this will have a <a href> and will contain a url with the info for the order
+
+something like this
+<a href="/add?coffee=Robusta&size=Small&qty=2">2 Small Robusta</a>
+
+use get request to get the info
+GET /add?coffee=Arabica&size=Large&qty=2
+
+
+then create itemOrder object using info
+
+then add to customer order
+
+
+then update inventory
+*/
+
+
+
 
 use std::collections::HashMap;
 
