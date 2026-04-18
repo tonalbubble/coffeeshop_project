@@ -121,6 +121,8 @@ impl Coffee{
 
 //this could represent Columbian Dark
 //this struct represents what we have on the menu
+
+/* 
 struct CofffeItem{
     name : Coffee,
     roast : Roast,
@@ -142,12 +144,13 @@ impl CofffeItem{
 
     }
 }
+*/
 
 
 //might need lifetimes('a things) for the coffeeitem in the parameters
 //this would be represented by an object like 2 bags og Columbian Dark size L which would then be 24 as price
 struct ItemOrder{
-    coffee : CofffeItem,
+    coffee : Coffee,
     size : Size,
     quantity : f32,
     price : f32
@@ -157,7 +160,7 @@ struct ItemOrder{
 //
 impl ItemOrder{
 
-    fn new(new_coffee : CofffeItem, new_size : Size, new_quantity : f32) -> Self{
+    fn new(new_coffee : Coffee, new_size : Size, new_quantity : f32) -> Self{
 
         let total_price = new_size.price() * new_quantity;
 
@@ -196,8 +199,8 @@ impl CustomerOrder{
     fn add_item(&mut self, coffee: Coffee, roast: Roast, size: Size, quantity: f32){
 
 
-        let coffee_item = CofffeItem::new(coffee, roast);
-        let item = ItemOrder::new(coffee_item, size, quantity);
+        //let coffee_item = CofffeItem::new(coffee, roast);
+        let item = ItemOrder::new(coffee, size, quantity);
 
 
         self.total_price += item.price;
