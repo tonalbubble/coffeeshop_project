@@ -37,7 +37,7 @@ use std::collections::HashMap;
 
 use std::hash::RandomState;
 
-enum Size{
+pub enum Size{
     Small,
     Medium,
     Large
@@ -55,13 +55,33 @@ impl Size{
             Size::Large => 12.0
         }
     }
+
+    pub fn to_str(&self) -> &str {
+        match self {
+            Size::Small => "Small",
+            Size::Medium => "Medium",
+            Size::Large => "Large",
+        }
+    }
 }
 
 
-enum Roast{
+pub enum Roast{
     Light,
     Medium,
     Dark
+}
+
+
+impl Roast{
+    //for insertion into database
+    pub fn to_str(&self) -> &str {
+        match self {
+            Roast::Light => "Light",
+            Roast::Medium => "Medium",
+            Roast::Dark => "Dark",
+        }
+    }
 }
 
 //coffee enum just so we have fixed types, if we were building this to dynamically add coffees
@@ -69,7 +89,7 @@ enum Roast{
 
 
 #[derive(Hash, Eq, PartialEq, Debug, Clone, Copy)]
-enum Coffee{
+pub enum Coffee{
     Columbian,
     Arabica,
     Robusta,
@@ -144,6 +164,17 @@ impl Coffee{
             
         }
     }
+
+    pub fn to_str(&self) -> &str {
+        match self {
+            Coffee::Columbian => "Columbian",
+            Coffee::Arabica => "Arabica",
+            Coffee::Robusta => "Robusta",
+            Coffee::Excelsa => "Excelsa",
+            Coffee::BreakfastBlend => "BreakfastBlend",
+            Coffee::MidnightRoast => "MidnightRoast",
+        }
+    }
 }
 
 
@@ -177,12 +208,12 @@ impl CofffeItem{
 
 //might need lifetimes('a things) for the coffeeitem in the parameters
 //this would be represented by an object like 2 bags og Columbian Dark size L which would then be 24 as price
-struct ItemOrder{
-    coffee : Coffee,
-    roast : Roast,
-    size : Size,
-    quantity : f32,
-    price : f32
+pub struct ItemOrder{
+    pub coffee : Coffee,
+    pub roast : Roast,
+    pub size : Size,
+    pub quantity : f32,
+    pub price : f32
 }
 
 

@@ -1,4 +1,4 @@
-mod model;
+pub mod model;
 pub mod database;
 use crate::database::Database;
 
