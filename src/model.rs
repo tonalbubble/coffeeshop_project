@@ -98,7 +98,7 @@ pub enum Coffee{
     MidnightRoast
 }
 
-struct Inventory{
+pub struct Inventory{
     stock : HashMap<Coffee, i32>
 }
 
@@ -107,7 +107,7 @@ struct Inventory{
 //disregard the large,small,medium that we can implement later
 //so with the simulation just gonna remove one bag per purchase
 impl Inventory{
-    fn new() -> Self{
+    pub fn new() -> Self{
 
         let mut stock = HashMap::new();
 
@@ -119,7 +119,7 @@ impl Inventory{
 
     }
 
-    fn add_stock(&mut self, coffee : Coffee, amount : i32){
+    pub fn add_stock(&mut self, coffee : Coffee, amount : i32){
         //or insert checks if a value exists at the location at thekey, returns mutable reference to the value
         let inventory_add = self.stock.entry(coffee).or_insert(0);
 
@@ -129,7 +129,7 @@ impl Inventory{
 
 
     //if not enough coffee to remove from return false here
-    fn reduce_stock(&mut self, coffee : Coffee, amount : i32) -> bool{
+    pub fn reduce_stock(&mut self, coffee : Coffee, amount : i32) -> bool{
 
         //get_mut return mutable reference for the value at the key location in the hashmap
         if let Some(current_stock) = self.stock.get_mut(&coffee){
@@ -238,16 +238,16 @@ impl ItemOrder{
 //the vector will contain different item orders, 
 
 //customerOrder struct will basically be like a receipt of everything they bought
-struct CustomerOrder{
-    id : i32,
-    customer_id : i32,
-    items : Vec<ItemOrder>,
-    total_price : f32
+pub struct CustomerOrder{
+    pub id : i32,
+    pub customer_id : i32,
+    pub items : Vec<ItemOrder>,
+    pub total_price : f32
 }   
 
 
 impl CustomerOrder{
-    fn new(new_id : i32, customer_id : i32, ) -> Self{
+    pub fn new(new_id : i32, customer_id : i32, ) -> Self{
 
         CustomerOrder{
             id : new_id,
@@ -257,7 +257,7 @@ impl CustomerOrder{
         }
     }
 
-    fn add_item(&mut self, coffee: Coffee, roast: Roast, size: Size, quantity: f32){
+    pub fn add_item(&mut self, coffee: Coffee, roast: Roast, size: Size, quantity: f32){
 
 
         //let coffee_item = CofffeItem::new(coffee, roast);

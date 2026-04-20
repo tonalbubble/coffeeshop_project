@@ -1,1 +1,1 @@
-/home/charl/cs_310/coffeeshop_project/target/debug/rust_project: /home/charl/cs_310/coffeeshop_project/src/database.rs /home/charl/cs_310/coffeeshop_project/src/main.rs /home/charl/cs_310/coffeeshop_project/src/model.rs
+/Users/arigardner/Desktop/CS310/classcode/rust_project/target/debug/rust_project: /Users/arigardner/Desktop/CS310/classcode/rust_project/src/database.rs /Users/arigardner/Desktop/CS310/classcode/rust_project/src/main.rs /Users/arigardner/Desktop/CS310/classcode/rust_project/src/model.rs
