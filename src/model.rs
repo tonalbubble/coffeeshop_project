@@ -36,7 +36,11 @@ use std::collections::HashMap;
 //SMALL => $5
 
 use std::hash::RandomState;
+use serde::{Serialize, Deserialize};
 
+
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub enum Size{
     Small,
     Medium,
@@ -66,6 +70,7 @@ impl Size{
 }
 
 
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub enum Roast{
     Light,
     Medium,
@@ -88,7 +93,7 @@ impl Roast{
 //then string could be better but this will be easier to manage errors
 
 
-#[derive(Hash, Eq, PartialEq, Debug, Clone, Copy)]
+#[derive(Hash, Eq, PartialEq, Debug, Clone, Copy, Serialize, Deserialize)]
 pub enum Coffee{
     Columbian,
     Arabica,
@@ -99,7 +104,7 @@ pub enum Coffee{
 }
 
 pub struct Inventory{
-    stock : HashMap<Coffee, i32>
+    pub stock : HashMap<Coffee, i32>
 }
 
 
