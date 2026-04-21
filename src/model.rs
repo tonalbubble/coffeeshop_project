@@ -112,8 +112,8 @@ impl Inventory{
         let mut stock = HashMap::new();
 
         stock.insert(Coffee::Arabica, 100);
-        stock.insert(Coffee::Arabica, 100);
-        stock.insert(Coffee::Arabica, 100);
+        //stock.insert(Coffee::Arabica, 100);
+        //stock.insert(Coffee::Arabica, 100);
 
         Inventory { stock }
 
@@ -258,7 +258,6 @@ impl CustomerOrder{
     }
 
     pub fn add_item(&mut self, coffee: Coffee, roast: Roast, size: Size, quantity: f32){
-
 
         //let coffee_item = CofffeItem::new(coffee, roast);
         let item = ItemOrder::new(coffee, roast, size, quantity);
