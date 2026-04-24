@@ -57,7 +57,7 @@ impl Database{
         //jus the products we have on the menu
         self.conn.execute(
             "CREATE TABLE IF NOT EXISTS product(
-                product_id INT PRIMARY KEY AUTOINCREMENT,
+                product_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
                 base_price DECIMAL NOT NULL
                 )",())?; //error propagation

@@ -3,12 +3,60 @@ pub mod database;
 use crate::database::Database;
 
 
-use model::{Coffee, Roast, ItemOrder, CustomerOrder, Size, Inventory};
+use axum::{extract::State, Error, Router};
+use std::sync::{Arc, Mutex};
+use tokio::net::TcpListener;
+use crate::model::{Coffee, Roast, ItemOrder, CustomerOrder, Size, Inventory};
+use std::collections::HashMap;
 
-fn main() {
+
+//shared state struct for info/structures needed by the app
+
+/*
+    Arc allows multiple threads to safely own data, we need this as we are going to just have a simple implementation
+    of a coffeeshop and i think only have one global cart, obviously not great but simpler
+    the idea of this struct though is so we dont have to handle each request for the data independently, because 
+    we have it here all the users/threads will be able to access what they need
+
+
+*/
+#[derive(Clone)]
+pub struct AppState{
+
+    //
+    pub cart : Arc<Mutex<HashMap<u32, CustomerOrder>>>,
+
+    pub inventory : Arc<Mutex<Inventory>>,
+
+    pub db : Arc<Mutex<Database>>
+
+}
+
+
+//#[tokio::main]
+async fn main() {
     //first, initialize database:
-    db_init();
+    let db = match db_init() {
+        Ok(db)=> db,
+        Err(e)=> {
+            eprintln!("Failed to initialize database: {e}");
+            return;
+        }
+        
+    };
+    
+    //initalize shared state here
+    let state = AppState{
+        cart : Arc::new(Mutex::new(CustomerOrder::new(1, 999))),
+        inventory  :Arc::new(Mutex::new(Inventory::new())),
+        db : Arc::new(Mutex::new(db)),
+    };
 
+
+
+
+    /*
+    //doing some testing of the code in model
 
     println!("--- Initializing Shop Inventory ---");
     let mut shop_inventory = Inventory::new();
@@ -48,10 +96,12 @@ fn main() {
     println!("TOTAL ORDER PRICE: ${:.2}", current_session_order.total_price);
     println!("---------------------------");
 
+    */
+
 }
 
 //this function makes sure our database is initialized with empty tables ready to go.
-pub fn db_init(){
+pub fn db_init() -> Result<Database, rusqlite::Error>{
     let db = match Database::new("coffee.db".to_string()){
         Ok(db) => {
             println!("Successfully connected to {}",{&db.name});
@@ -59,7 +109,7 @@ pub fn db_init(){
         },
         Err(e) => {
             println!("Error connecting to database: {e}");
-            return;
+            return Err(e);
         }
     };
 
@@ -72,15 +122,7 @@ pub fn db_init(){
         Ok(a) => println!("Tables created successfully"),
         Err(e) => println!("Error creating tables: {e}")
     };
+
+    Ok(db)
 }
 
-
-struct hello{
-
-}
-
-
-
-fn calculate(){
-
-}
