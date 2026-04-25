@@ -54,9 +54,16 @@ async fn main() {
 
 
         inventory  :Arc::new(Mutex::new(Inventory::new())),
+
         db : Arc::new(Mutex::new(db)),
     };
 
+    let webApp = Router::new()
+        .route(path, method_router)
+        .route(path, method_router)
+        .route(path, method_router)
+        .route(path, method_router)
+        .route(path, method_router);
 
 
 
