@@ -58,6 +58,8 @@ async fn main() {
         db : Arc::new(Mutex::new(db)),
     };
 
+    //here is where we will assign our handlers to the route
+
     let webApp = Router::new()
         .route(path, method_router)
         .route(path, method_router)
@@ -66,6 +68,14 @@ async fn main() {
         .route(path, method_router);
 
 
+    let listener = tokio::net::TcpListener::bind("localhost:7008")
+        .await
+        .expect("failed to bind to port");
+
+    //serve requests to users
+    axum::serve(listener, app)
+        .await
+        .expect("server failed to start")
 
     /*
     //doing some testing of the code in model
