@@ -50,7 +50,9 @@ async fn main() {
     
     //initalize shared state here
     let state = AppState{
-        cart : Arc::new(Mutex::new(CustomerOrder::new(1, 999))),
+        cart : Arc::new(Mutex::new(HashMap::new())),
+
+
         inventory  :Arc::new(Mutex::new(Inventory::new())),
         db : Arc::new(Mutex::new(db)),
     };
