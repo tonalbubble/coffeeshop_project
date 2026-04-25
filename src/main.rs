@@ -14,7 +14,7 @@ use std::collections::HashMap;
 
 /*
     Arc allows multiple threads to safely own data, we need this as we are going to just have a simple implementation
-    of a coffeeshop and i think only have one global cart, obviously not great but simpler
+    of a coffeeshop
     the idea of this struct though is so we dont have to handle each request for the data independently, because 
     we have it here all the users/threads will be able to access what they need
 
@@ -23,9 +23,12 @@ use std::collections::HashMap;
 #[derive(Clone)]
 pub struct AppState{
 
-    //
+    //use a hashmap to match cart to customer so we dont just hav eone cart
     pub cart : Arc<Mutex<HashMap<u32, CustomerOrder>>>,
 
+    
+    //using Arc and Mutex so that the multiple users(threads) can access this data safely
+     
     pub inventory : Arc<Mutex<Inventory>>,
 
     pub db : Arc<Mutex<Database>>
