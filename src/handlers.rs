@@ -60,6 +60,8 @@ pub async fn addItem(State(state) : State<AppState>, Query(params) : Query<AddOr
     let coffee = &params.coffee;
     let size = &params.size;
 
+    let amount = &params.quantity;
+
     //believe using .lock() here is right because we dont want multiple threads editing
     let mut carts = state.carts.lock().unwrap();
     let mut inventory = state.inventory.lock().unwrap();
@@ -70,5 +72,11 @@ pub async fn addItem(State(state) : State<AppState>, Query(params) : Query<AddOr
         .entry(params.cart_id)
         .or_insert(||CustomerOrder::new(params.cart_id as i32));
 
+
+    if inventory.reduce_stock(coffee, amount){
+        cart.add_item(coffee, Roast::Medium, size, amount);
+    }  
+
+    Redirect::to(&format!("/?cart_id={}", params.cart_id)) 
 }
 
