@@ -245,18 +245,18 @@ impl ItemOrder{
 //customerOrder struct will basically be like a receipt of everything they bought
 pub struct CustomerOrder{
     pub id : i32,
-    pub customer_id : i32,
+    //pub customer_id : i32,
     pub items : Vec<ItemOrder>,
     pub total_price : f32
 }   
 
 
 impl CustomerOrder{
-    pub fn new(new_id : i32, customer_id : i32, ) -> Self{
+    pub fn new(new_id : i32 ) -> Self{
 
         CustomerOrder{
             id : new_id,
-            customer_id : customer_id,
+            //customer_id : customer_id,
             items : Vec::new(),
             total_price : 0.0
         }
