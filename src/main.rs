@@ -24,7 +24,7 @@ use std::collections::HashMap;
 pub struct AppState{
 
     //use a hashmap to match cart to customer so we dont just hav eone cart
-    pub cart : Arc<Mutex<HashMap<u32, CustomerOrder>>>,
+    pub carts : Arc<Mutex<HashMap<u32, CustomerOrder>>>,
 
     
     //using Arc and Mutex so that the multiple users(threads) can access this data safely
@@ -50,7 +50,7 @@ async fn main() {
     
     //initalize shared state here
     let state = AppState{
-        cart : Arc::new(Mutex::new(HashMap::new())),
+        carts : Arc::new(Mutex::new(HashMap::new())),
 
 
         inventory  :Arc::new(Mutex::new(Inventory::new())),
